@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Create and publish a Docker image
+name: Create, Publish Docker Image. Deploy to GCP.
 
 on:
   push:
@@ -19,6 +19,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -44,3 +45,24 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Auth with GCP with WIF
+        uses: 'google-github-actions/auth@v0'
+        with:
+          workload_identity_provider: 'projects/284911242659/locations/global/workloadIdentityPools/gh-to-vm-pool/providers/gh-to-vm-provider'
+          service_account: ' gh-actions-to-vm@mwenclubhouse.iam.gserviceaccount.com'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+
+      - name: 'Use GCP CLI'
+        run: |
+          gcloud compute ssh mwenclubhouse --zone us-central1-a --command "\
+          sudo docker system prune -f -a ; \
+          sudo docker pull ghcr.io/mwenclubhouse/notion-recurring-tasks:main; \
+          sudo docker stop notion ; \
+          sudo docker container rm notion ; \
+          sudo docker run -d --env-file /home/mwenclubhouse/environments/notion.env.list \
+            --name notion \
+            --restart always \
+            ghcr.io/mwenclubhouse/notion-recurring-tasks:main"
+          gcloud compute os-login ssh-keys remove --key-file=/home/runner/.ssh/google_compute_engine.pub
