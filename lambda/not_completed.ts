@@ -27,6 +27,7 @@ export const setNotCompleted = async (item : {notion: Client, kataban_board: str
         if (completed_date) {
             completed_date.date = null;
         }
+        delete item.properties["Date Created"]
         await notion.pages.update({
             page_id: item.id,
             properties: item.properties,

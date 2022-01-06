@@ -58,10 +58,12 @@ export const moveRecurringTasksToNotStarted = async (item : {notion: Client, kat
             const date_completed: DatePropertyValue = item.properties['Completion Date'] as DatePropertyValue;
             date_completed.date = null;
         }
+        delete item.properties["Date Created"]
         await notion.pages.update({
             page_id: item.id,
             properties: item.properties,
-            archived: false
+            archived: false,
+
         });
     }
 }
