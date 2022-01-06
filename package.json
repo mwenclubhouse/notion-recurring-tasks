@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "tsc": "tsc",
-    "start": "tsc && node ./build/index.js",
+    "start": "ts-node lambda/index.ts",
     "build": "tsc",
     "test": "jest"
   },

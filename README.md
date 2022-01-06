@@ -16,3 +16,9 @@ NOTION_NOT_STARTED_LABEL_ID=[Label ID for Not Started from Status Tag]
 NOTION_COMPLETED_LABEL=[Name of Completed Label ex. 4. Completed]
 IS_EC2_INSTANCE=[yes if running on GCP compute engine or AWS EC2, no for AWS Lambda (so far)]
 ```
+
+## Notion Setup for Kataban Board
+Recurring Days: Multiselect with "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+Status: Select with at least NOTION_COMPLETED_LABEL as an option
+Date: Date that contains the Due Date of a task
+Completion Date: Date that contains the Completion Date
