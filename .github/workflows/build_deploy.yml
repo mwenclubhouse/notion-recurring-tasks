@@ -4,10 +4,7 @@
 # documentation.
 
 name: Create, Publish Docker Image. Deploy to GCP.
-
-on:
-  push:
-    branches: ['main']
+'on': pull_request
 
 env:
   REGISTRY: ghcr.io
