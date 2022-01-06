@@ -53,7 +53,7 @@ export const moveRecurringTasksToNotStarted = async (item : {notion: Client, kat
 
         const status: SelectPropertyValue = item.properties["Status"] as SelectPropertyValue;
         if (status) {
-            status.select = {id: not_started};
+            status.select = {name: not_started};
             item.properties["Status"] = status;
             const date_completed: DatePropertyValue = item.properties['Completion Date'] as DatePropertyValue;
             date_completed.date = null;

@@ -8,7 +8,7 @@ import {setNotCompleted} from "./not_completed";
 
 const auth = process.env.NOTION_AUTH;
 const kataban_board = process.env.NOTION_KATABAN_BOARD;
-const not_started = process.env.NOTION_NOT_STARTED_LABEL_ID;
+const not_started = process.env.NOTION_NOT_STARTED_LABEL;
 const completed_label = process.env.NOTION_COMPLETED_LABEL;
 const notion = new Client({
     auth
