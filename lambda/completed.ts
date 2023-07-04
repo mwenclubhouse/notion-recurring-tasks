@@ -1,4 +1,4 @@
-import {DatePropertyValue} from "@notionhq/client/build/src/api-types";
+import {DatePropertyValue, InputPropertyValue} from "@notionhq/client/build/src/api-types";
 import {Client} from "@notionhq/client/build/src";
 import {getDate, getItems} from "./utils";
 
@@ -28,10 +28,11 @@ export const setCompleted = async (item : {notion: Client, kataban_board: string
         if (completed_date) {
             completed_date.date = {start: getDate()};
         }
-        delete item.properties["Date Created"]
         await notion.pages.update({
             page_id: item.id,
-            properties: item.properties,
+            properties: {
+                "Completion Date": completed_date
+            },
             archived: false
         });
     }
