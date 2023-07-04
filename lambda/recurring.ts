@@ -30,38 +30,41 @@ export const moveRecurringTasksToNotStarted = async (item : {notion: Client, kat
 
     for (let i = 0; i < response.length; i++) {
         const item = response[i];
-        let set_day = 7;
+        let setDay = 7;
         const date: DatePropertyValue = item.properties["Date"] as DatePropertyValue;
-        const recurring_days: MultiSelectPropertyValue = item.properties["Recurring Days"] as MultiSelectPropertyValue;
-        if (recurring_days && date) {
-            const passed_in_date = new Date(date.date.start);
-            const week_days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-            let reset_day = 7;
-            let next_day = 7;
-            recurring_days.multi_select.forEach((item) => {
-                const idx = week_days.indexOf(item.name);
+        const recurringDays: MultiSelectPropertyValue = item.properties["Recurring Days"] as MultiSelectPropertyValue;
+        let properties: any = {};
+        if (recurringDays && date) {
+            const passedInDate = new Date(date.date.start);
+            const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+            let resetDay = 7;
+            let nextDay = 7;
+            recurringDays["multi_select"].forEach((item) => {
+                const idx = weekDays.indexOf(item.name);
                 if (idx >= 0) {
-                    reset_day = idx < reset_day ? idx: reset_day;
-                    next_day = idx < next_day && idx > passed_in_date.getDay() ? idx: next_day;
+                    resetDay = idx < resetDay ? idx: resetDay;
+                    nextDay = idx < nextDay && idx > passedInDate.getDay() ? idx: nextDay;
                 }
             });
-            set_day = (next_day === 7) ? reset_day: next_day;
-            date.date.start = getNextDate(passed_in_date, set_day);
-            delete date.date.end;
-            item.properties["Date"] = date;
+            setDay = (nextDay === 7) ? resetDay: nextDay;
+            properties["Date"] = {
+                "date": {
+                    "start": getNextDate(passedInDate, setDay)
+                }
+            };
         }
 
         const status: SelectPropertyValue = item.properties["Status"] as SelectPropertyValue;
         if (status) {
             status.select = {name: not_started};
-            item.properties["Status"] = status;
-            const date_completed: DatePropertyValue = item.properties['Completion Date'] as DatePropertyValue;
-            date_completed.date = null;
+            properties["Status"] = status;
+            properties["Completion Date"] = {
+                "date": null
+            };
         }
-        delete item.properties["Date Created"]
         await notion.pages.update({
             page_id: item.id,
-            properties: item.properties,
+            properties: properties,
             archived: false,
 
         });

@@ -24,14 +24,14 @@ export const setCompleted = async (item : {notion: Client, kataban_board: string
 
     for (let i = 0; i < response.length; i++) {
         const item = response[i];
-        const completed_date: DatePropertyValue | undefined = item.properties['Completion Date'] as DatePropertyValue
-        if (completed_date) {
-            completed_date.date = {start: getDate()};
+        const completedDate: DatePropertyValue | undefined = item.properties['Completion Date'] as DatePropertyValue
+        if (completedDate) {
+            completedDate.date = {start: getDate()};
         }
         await notion.pages.update({
             page_id: item.id,
             properties: {
-                "Completion Date": completed_date
+                "Completion Date": completedDate
             },
             archived: false
         });
