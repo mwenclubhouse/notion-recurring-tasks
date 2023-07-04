@@ -1,6 +1,4 @@
 import {Client} from "@notionhq/client/build/src";
-import {DatePropertyValue, MultiSelectPropertyValue, SelectPropertyValue} from "@notionhq/client/build/src/api-types";
-import spacetime from "spacetime";
 import {moveRecurringTasksToNotStarted} from "./recurring";
 import {setCompleted} from "./completed";
 import {setNotCompleted} from "./not_completed";
