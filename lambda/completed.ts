@@ -1,4 +1,4 @@
-import {DatePropertyValue, InputPropertyValue} from "@notionhq/client/build/src/api-types";
+import {DatePropertyValue} from "@notionhq/client/build/src/api-types";
 import {Client} from "@notionhq/client/build/src";
 import {getDate, getItems} from "./utils";
 
