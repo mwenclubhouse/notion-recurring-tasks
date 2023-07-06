@@ -23,14 +23,16 @@ export const setNotCompleted = async (item : {notion: Client, kataban_board: str
     );
     for (let i = 0; i < response.length; i++) {
         const item = response[i];
+
+        let properties: any = {}
         const completed_date: DatePropertyValue | undefined = item.properties['Completion Date'] as DatePropertyValue
         if (completed_date) {
             completed_date.date = null;
+            properties["Completion Date"] = completed_date;
         }
-        delete item.properties["Date Created"]
         await notion.pages.update({
             page_id: item.id,
-            properties: item.properties,
+            properties: properties,
             archived: false
         });
     }
