@@ -1,7 +1,9 @@
-import {DatePropertyValue} from "@notionhq/client/build/src/api-types";
-import {Client} from "@notionhq/client/build/src";
+import {Client} from "@notionhq/client";
 import {getItems} from "./utils";
 
+/*
+ * Note: Not Used in Production. It Breaks via Docker Container
+*/
 export const setNotCompleted = async (item : {notion: Client, kataban_board: string, not_started: string, completed_label: string}) => {
     const {notion, kataban_board, completed_label} = item;
     const response = await getItems({notion, kataban_board, filter: {
@@ -23,7 +25,7 @@ export const setNotCompleted = async (item : {notion: Client, kataban_board: str
     );
     for (let i = 0; i < response.length; i++) {
         const item = response[i];
-        const completed_date: DatePropertyValue | undefined = item.properties['Completion Date'] as DatePropertyValue
+        const completed_date: any = item.properties['Completion Date']
         const properties: any = {}
         if (completed_date) {
             completed_date.date = null;

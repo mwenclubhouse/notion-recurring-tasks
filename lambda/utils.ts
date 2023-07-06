@@ -5,7 +5,7 @@ export const getISO = (year: number, month: number, day: number)  => {
 }
 
 export const getDate = (): string => {
-    const date = spacetime.now('America/Indianapolis')
+    const date = spacetime.now('America/Los_Angeles')
     return getISO(date.year(), date.month() + 1, date.date());
 }
 

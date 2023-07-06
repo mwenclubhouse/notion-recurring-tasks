@@ -1,5 +1,4 @@
-import {DatePropertyValue} from "@notionhq/client/build/src/api-types";
-import {Client} from "@notionhq/client/build/src";
+import {Client} from "@notionhq/client";
 import {getDate, getItems} from "./utils";
 
 export const setCompleted = async (item : {notion: Client, kataban_board: string, not_started: string, completed_label: string}) => {
@@ -24,7 +23,7 @@ export const setCompleted = async (item : {notion: Client, kataban_board: string
 
     for (let i = 0; i < response.length; i++) {
         const item = response[i];
-        const completedDate: DatePropertyValue | undefined = item.properties['Completion Date'] as DatePropertyValue
+        const completedDate: any = item.properties['Completion Date'] 
         if (completedDate) {
             completedDate.date = {start: getDate()};
         }
