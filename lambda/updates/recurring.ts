@@ -1,24 +1,28 @@
-import {Client} from "@notionhq/client";
-import {getDate, getItems, getNextDate} from "./utils";
+import { NotionArgs } from "../utils/type";
+import { getDate, getItems, getNextDate } from "../utils";
+import { COMPLETION_DATE, DATE, RECURRING_DAYS, STATUS, WEEKDAYS } from "../utils/constants";
 
-export const moveRecurringTasksToNotStarted = async (item : {notion: Client, kataban_board: string, not_started: string, completed_label: string}) => {
-    const {notion, kataban_board, not_started, completed_label} = item;
-    const response = await getItems({notion, kataban_board, filter: {
+export const moveRecurringTasksToNotStarted = async (item: NotionArgs) => {
+    const {notion, katabanBoard, notStarted, completedLabel} = item;
+    const response: any[] = await getItems({notion, katabanBoard, filter: {
             and: [
                 {
-                    property: 'Recurring Days',
+                    type: "multi_select",
+                    property: RECURRING_DAYS,
                     multi_select: {
                         is_not_empty: true,
                     }
                 },
                 {
-                    property: 'Status',
+                    type: "select",
+                    property: STATUS,
                     select: {
-                        equals: completed_label
+                        equals: completedLabel
                     }
                 },
                 {
-                    property: 'Date',
+                    type: "date",
+                    property: DATE,
                     date: {
                         before: getDate()
                     }
@@ -27,39 +31,37 @@ export const moveRecurringTasksToNotStarted = async (item : {notion: Client, kat
         }}
     );
 
-     
     for (let i = 0; i < response.length; i++) {
         const item = response[i];
         let setDay = 7;
 
-        const date = item.properties["Date"];
-        const recurringDays = item.properties["Recurring Days"];
+        const date = item.properties[DATE];
+        const recurringDays = item.properties[RECURRING_DAYS];
         let properties: any = {};
         if (recurringDays && date) {
             const passedInDate = new Date(date.date.start);
-            const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
             let resetDay = 7;
             let nextDay = 7;
             recurringDays["multi_select"].forEach((item: any) => {
-                const idx = weekDays.indexOf(item.name);
+                const idx = WEEKDAYS.indexOf(item.name);
                 if (idx >= 0) {
                     resetDay = idx < resetDay ? idx: resetDay;
                     nextDay = idx < nextDay && idx > passedInDate.getDay() ? idx: nextDay;
                 }
             });
             setDay = (nextDay === 7) ? resetDay: nextDay;
-            properties["Date"] = {
+            properties[DATE] = {
                 "date": {
                     "start": getNextDate(passedInDate, setDay)
                 }
             };
         }
 
-        const status = item.properties["Status"];
+        const status = item.properties[STATUS];
         if (status) {
-            status.select = {name: not_started};
-            properties["Status"] = status;
-            properties["Completion Date"] = {
+            status.select = {name: notStarted};
+            properties[STATUS] = status;
+            properties[COMPLETION_DATE] = {
                 "date": null
             };
         }

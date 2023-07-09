@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "tsc": "tsc",
-    "start": "ts-node lambda/index.ts",
+    "start": "ts-node lambda/main.ts",
     "build": "tsc"
   },
   "dependencies": {
