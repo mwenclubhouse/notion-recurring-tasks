@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN apt update
 RUN apt upgrade -y
 RUN apt install -y curl lsb-release gnupg
-RUN curl -s https://deb.nodesource.com/setup_18.x | bash /dev/stdin
+RUN curl -s https://deb.nodesource.com/setup_16.x | bash /dev/stdin
 RUN apt install -y nodejs
 RUN node --version
 RUN npm --version
