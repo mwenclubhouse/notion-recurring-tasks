@@ -16,7 +16,7 @@ export const getNextDate = (now: Date, dayOfWeek: number): string => {
     let result = new Date(
         now.getFullYear(),
         now.getMonth(),
-        now.getDate() + (7 + dayOfWeek - now.getDay()),
+        now.getDate() + (7 + dayOfWeek - now.getDay()) % 7,
         0,
         0,
         0,
