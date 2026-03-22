@@ -3,14 +3,14 @@ import { PageObjectResponse, PartialPageObjectResponse } from "@notionhq/client/
 
 export interface NotionArgs {
     notion: Client,
-    katabanBoard: string,
+    katabanId: string,
     notStarted: string, 
     completedLabel: string
 }
 
 export interface GetItemsArgs {
     notion: Client,
-    katabanBoard: string,
+    katabanId: string,
     filter: any
 }
 

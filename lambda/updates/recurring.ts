@@ -3,8 +3,8 @@ import { getDate, getItems, getNextDate } from "../utils";
 import { COMPLETION_DATE, DATE, RECURRING_DAYS, STATUS, WEEKDAYS } from "../utils/constants";
 
 export const moveRecurringTasksToNotStarted = async (item: NotionArgs) => {
-    const {notion, katabanBoard, notStarted, completedLabel} = item;
-    const response: any[] = await getItems({notion, katabanBoard, filter: {
+    const {notion, katabanId, notStarted, completedLabel} = item;
+    const response: any[] = await getItems({notion, katabanId, filter: {
             and: [
                 {
                     type: "multi_select",

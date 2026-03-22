@@ -3,8 +3,8 @@ import { COMPLETION_DATE, DATE, STATUS } from "../utils/constants";
 import { NotionArgs, NotionItem } from "../utils/type";
 
 export const updateDateProperties = async (item: NotionArgs) => {
-    const {notion, katabanBoard, completedLabel} = item;
-    const response: NotionItem[] = await getItems({notion, katabanBoard, filter: {
+    const {notion, katabanId, completedLabel} = item;
+    const response: NotionItem[] = await getItems({notion, katabanId, filter: {
         and: [
             {
                 type: "date",

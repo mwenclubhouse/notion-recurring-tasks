@@ -5,7 +5,8 @@ import { NotionArgs } from "./utils/type";
 import { updateDateProperties } from "./updates/updateDateProperties";
 
 
-const katabanBoard = process.env.NOTION_KATABAN_BOARD;
+// const katabanBoard = process.env.NOTION_KATABAN_BOARD;
+const katabanId = process.env.NOTION_DATASOURCE_ID;
 const notStarted = process.env.NOTION_NOT_STARTED_LABEL;
 const completedLabel = process.env.NOTION_COMPLETED_LABEL;
 const notion = new Client({
@@ -13,7 +14,7 @@ const notion = new Client({
 });
 
 const notionArgs: NotionArgs = {
-    notion, katabanBoard, notStarted, completedLabel
+    notion, katabanId, notStarted, completedLabel
 }
 
 export const handler = async () => {

@@ -29,14 +29,10 @@ export const getNextDate = (now: Date, dayOfWeek: number): string => {
 }
 
 export const getItems = async (getItemArgs: GetItemsArgs): Promise<NotionItem[]> => {
-    const {notion, katabanBoard: kataban_board, filter} = getItemArgs;
+    const {notion, katabanId: dataSourceId, filter} = getItemArgs;
     const items: NotionItem[] = [];
     let cursor: string | null = null;
     do {
-        // First, get the data_source_id from the database
-        const database = await notion.databases.retrieve({ database_id: kataban_board });
-        const dataSourceId = database.id; // In v5+, this gives you the data_source_id
-
         // Then query using dataSources.query
         const response = await notion.dataSources.query({
             data_source_id: dataSourceId,

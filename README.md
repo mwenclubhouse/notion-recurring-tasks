@@ -12,7 +12,8 @@ back to not started. Yeah, pretty nifty.
 For Me, Put this in a env file: (example) /home/mwenclubhouse/environments/notion.env.list
 ```text
 NOTION_AUTH=[Authentication for Notion Board]
-NOTION_KATABAN_BOARD=[ID of Kataban Board Used]
+NOTION_KATABAN_BOARD=[ID of Kataban Board Used] (deprecated)
+NOTION_DATASOURCE_ID=[ID of the Kataban Data Source]
 NOTION_NOT_STARTED_LABEL=[Name of the Not Started Label ex. 1. Not Started]
 NOTION_COMPLETED_LABEL=[Name of Completed Label ex. 4. Completed]
 IS_EC2_INSTANCE=[yes if running on GCP compute engine or AWS EC2, no for AWS Lambda (so far)]
